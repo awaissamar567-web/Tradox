@@ -95,6 +95,7 @@ const Profile: React.FC<ProfileProps> = ({ onNavigateToTab }) => {
   const [avatar, setAvatar] = useState<string | null>(profileSettings?.customAvatarUrl || null);
 
   const [submitting, setSubmitting] = useState(false);
+  const [showConfirmCancel, setShowConfirmCancel] = useState(false);
 
   // Sync active currency to localStorage on mount or change
   useEffect(() => {
@@ -429,23 +430,55 @@ const Profile: React.FC<ProfileProps> = ({ onNavigateToTab }) => {
 
           {/* Conditional Cancel option for $9.99 monthly subscribers */}
           {userPlan === 'pro' && profileSettings?.paymentPlanType !== 'lifetime' && (
-            <div className="bg-redPnl/5 border border-redPnl/25 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-2">
-              <div className="flex flex-col gap-0.5">
-                <span className="font-syne text-[11px] font-bold text-redPnl uppercase tracking-wider">
-                  Cancel Subscription
-                </span>
-                <p className="font-dmsans text-[11px] text-textSecondary font-light leading-normal max-w-[340px]">
-                  You have an active monthly Pro subscription ($9.99/mo). You can cancel your automatic renewal anytime.
-                </p>
-              </div>
-              <a
-                href="https://whop.com/hub/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-9 px-4 shrink-0 bg-redPnl/15 border border-redPnl/30 hover:bg-redPnl/25 text-redPnl font-syne text-[10px] font-bold uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-              >
-                Cancel Subscription
-              </a>
+            <div className="bg-bgElevated/20 border border-customBorder/60 p-4 rounded-xl flex flex-col gap-3 mt-2">
+              {!showConfirmCancel ? (
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex flex-col gap-0.5">
+                    <span className="font-syne text-[11px] font-bold text-textSecondary uppercase tracking-wider">
+                      Membership Cancellation
+                    </span>
+                    <p className="font-dmsans text-[11px] text-textSecondary font-light leading-normal max-w-[340px]">
+                      You have an active monthly Pro subscription ($9.99/mo).
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmCancel(true)}
+                    className="text-[11px] font-syne uppercase font-bold text-textMuted hover:text-redPnl transition-colors underline bg-transparent border-none cursor-pointer outline-none"
+                  >
+                    Cancel Subscription
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-1">
+                    <span className="font-syne text-[11px] font-bold text-redPnl uppercase tracking-wider">
+                      Are you absolutely sure you want to cancel?
+                    </span>
+                    <p className="font-dmsans text-[11px] text-textSecondary font-light leading-normal">
+                      By canceling, you will lose access to logging unlimited trades, viewing all-time history, unlimited strategies, and exporting reports. You will retain access until the end of your current billing period.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-4 mt-1">
+                    <a
+                      href="https://whop.com/hub/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setShowConfirmCancel(false)}
+                      className="h-8 px-4 bg-redPnl/15 hover:bg-redPnl/25 border border-redPnl/30 text-redPnl font-syne text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all flex items-center justify-center cursor-pointer text-center"
+                    >
+                      Yes, Cancel subscription
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmCancel(false)}
+                      className="h-8 px-4 bg-bgElevated border border-customBorder text-textPrimary font-syne text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all flex items-center justify-center cursor-pointer hover:brightness-110"
+                    >
+                      No, Keep Pro Plan
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
