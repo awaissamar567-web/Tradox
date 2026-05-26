@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bgBase: #0D0D0D;
+  --bgSurface: #141414;
+  --bgElevated: #1A1A1A;
+  --bgOverlay: #1F1F1F;
+  --accent: #FF6B00;
+  --accentDim: rgba(255,107,0,0.08);
+  --accentGlow: rgba(255,107,0,0.20);
+  --textPrimary: #F0EDE8;
+  --textSecondary: #888888;
+  --textMuted: #444444;
+  --greenPnl: #00D97E;
+  --redPnl: #FF3B5C;
+  --customBorder: rgba(255,255,255,0.05);
+}
+
+html.light {
+  --bgBase: #F7F7F8;
+  --bgSurface: #FFFFFF;
+  --bgElevated: #EEF0F2;
+  --bgOverlay: #E5E7EB;
+  --accent: #FF6B00;
+  --accentDim: rgba(255,107,0,0.06);
+  --accentGlow: rgba(255,107,0,0.15);
+  --textPrimary: #111827;
+  --textSecondary: #4B5563;
+  --textMuted: #9CA3AF;
+  --greenPnl: #059669;
+  --redPnl: #DC2626;
+  --customBorder: rgba(0,0,0,0.08);
+}
+
+@layer base {
+  html, body {
+    background-color: var(--bgBase);
+    color: var(--textPrimary);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+  }
+
+  /* Custom input autofill colors */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--textPrimary);
+    -webkit-box-shadow: 0 0 0px 1000px var(--bgElevated) inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  /* Premium slim scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bgBase);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--bgElevated);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+  }
+}
+
+/* Page transitions and utility styling */
+.page-transition {
+  animation: pageFadeIn 0.2s ease-out forwards;
+}
+
+@keyframes pageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast-in {
+  animation: toastSlideIn 0.2s ease-out forwards;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Premium Mobile Bottom Sheet & Backdrop Animations */
+.backdrop-fade-in {
+  animation: backdropFadeIn 0.25s ease-out forwards;
+}
+
+@keyframes backdropFadeIn {
+  from {
+    background-color: rgba(13, 13, 13, 0);
+    backdrop-filter: blur(0px);
+  }
+  to {
+    background-color: rgba(13, 13, 13, 0.7);
+    backdrop-filter: blur(8px);
+  }
+}
+
+.bottom-sheet-up {
+  animation: bottomSheetSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes bottomSheetSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Hide scrollbar utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
