@@ -7,7 +7,7 @@ import {
   signOut as firebaseSignOut, 
   signInWithPopup
 } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, onSnapshot } from 'firebase/firestore';
 
 export interface AppUser {
   uid: string;
@@ -68,6 +68,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
 
+    let unsubscribe: () => void = () => {};
+
     const loadProfile = async () => {
       if (isFirebaseConfigured && db) {
         try {
@@ -76,26 +78,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           await setDoc(userRootRef, { email: user.email, uid: user.uid }, { merge: true });
 
           const docRef = doc(db, 'users', user.uid, 'profile', 'config');
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setProfileSettings(docSnap.data() as UserProfile);
-          } else {
-            // Initialize default profile in DB
-            const defaultProfile: UserProfile = {
-              userPlan: 'free',
-              onboardingComplete: false,
-              country: 'United States',
-              timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
-              tradingStyle: 'Day Trader',
-              primaryMarket: 'Forex',
-              currency: 'USD',
-              brokerLabel: '',
-              theme: 'dark',
-              customAvatarUrl: null
-            };
-            await setDoc(docRef, defaultProfile);
-            setProfileSettings(defaultProfile);
-          }
+          
+          // Setup real-time listener for profile config changes
+          unsubscribe = onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) {
+              setProfileSettings(docSnap.data() as UserProfile);
+            } else {
+              // Initialize default profile in DB
+              const defaultProfile: UserProfile = {
+                userPlan: 'free',
+                onboardingComplete: false,
+                country: 'United States',
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+                tradingStyle: 'Day Trader',
+                primaryMarket: 'Forex',
+                currency: 'USD',
+                brokerLabel: '',
+                theme: 'dark',
+                customAvatarUrl: null
+              };
+              setDoc(docRef, defaultProfile);
+              setProfileSettings(defaultProfile);
+            }
+          });
         } catch (error) {
           console.error("Error loading user profile from Firestore:", error);
         }
@@ -125,6 +130,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     loadProfile();
+
+    return () => {
+      unsubscribe();
+    };
   }, [user]);
 
   // Sync theme to root class name
