@@ -427,6 +427,28 @@ const Profile: React.FC<ProfileProps> = ({ onNavigateToTab }) => {
             </button>
           </div>
 
+          {/* Conditional Cancel option for $9.99 monthly subscribers */}
+          {userPlan === 'pro' && profileSettings?.paymentPlanType !== 'lifetime' && (
+            <div className="bg-redPnl/5 border border-redPnl/25 p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-2">
+              <div className="flex flex-col gap-0.5">
+                <span className="font-syne text-[11px] font-bold text-redPnl uppercase tracking-wider">
+                  Cancel Subscription
+                </span>
+                <p className="font-dmsans text-[11px] text-textSecondary font-light leading-normal max-w-[340px]">
+                  You have an active monthly Pro subscription ($9.99/mo). You can cancel your automatic renewal anytime.
+                </p>
+              </div>
+              <a
+                href="https://whop.com/hub/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="h-9 px-4 shrink-0 bg-redPnl/15 border border-redPnl/30 hover:bg-redPnl/25 text-redPnl font-syne text-[10px] font-bold uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                Cancel Subscription
+              </a>
+            </div>
+          )}
+
           {/* Action buttons & terms */}
           <div className="flex flex-col sm:flex-row items-center justify-between border-t border-customBorder/50 pt-4 mt-2 gap-4">
             

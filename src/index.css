@@ -33,7 +33,7 @@ html.light {
   --textMuted: #9CA3AF;
   --greenPnl: #059669;
   --redPnl: #DC2626;
-  --customBorder: rgba(0,0,0,0.08);
+  --customBorder: rgba(17,24,39,0.16);
 }
 
 @layer base {

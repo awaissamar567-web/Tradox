@@ -129,7 +129,7 @@ const handler: Handler = async (event, context) => {
   const targetEmail = email.toLowerCase().trim();
   console.log(`🔍 Processing Event "${eventType}" for email: ${targetEmail}`);
 
-  // Determine target plan
+  // Determine target plan and payment plan type
   let newPlan: 'free' | 'pro' = 'free';
   const isActivation = [
     'membership.activated',
@@ -146,6 +146,14 @@ const handler: Handler = async (event, context) => {
     'membership.cancelled',
     'membership.expired'
   ].includes(eventType);
+
+  const planId = (payload.data?.plan?.id || payload.plan?.id || '') as string;
+  let paymentPlanType: 'monthly' | 'lifetime' | null = null;
+  if (planId === 'plan_ADVvcySYlxcIR') {
+    paymentPlanType = 'monthly';
+  } else if (planId === 'plan_AOaJ2eJfVa30Z') {
+    paymentPlanType = 'lifetime';
+  }
 
   if (isActivation) {
     newPlan = 'pro';
@@ -186,8 +194,15 @@ const handler: Handler = async (event, context) => {
         const uid = userDoc.id;
         const profileConfigRef = doc(db, 'users', uid, 'profile', 'config');
         
-        await setDoc(profileConfigRef, { userPlan: newPlan }, { merge: true });
-        console.log(`✅ Successfully updated user "${uid}" plan to "${newPlan}"`);
+        const updateData: any = { userPlan: newPlan };
+        if (newPlan === 'free') {
+          updateData.paymentPlanType = null;
+        } else if (paymentPlanType) {
+          updateData.paymentPlanType = paymentPlanType;
+        }
+        
+        await setDoc(profileConfigRef, updateData, { merge: true });
+        console.log(`✅ Successfully updated user "${uid}" plan to "${newPlan}" (${paymentPlanType || 'unknown'})`);
         updateCount++;
       }
 

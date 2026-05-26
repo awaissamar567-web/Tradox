@@ -27,6 +27,7 @@ export interface UserProfile {
   brokerLabel: string;
   theme: 'dark' | 'light';
   customAvatarUrl?: string | null;
+  paymentPlanType?: 'monthly' | 'lifetime' | null;
 }
 
 interface AuthContextType {
