@@ -41,11 +41,11 @@ const UpgradePlan: React.FC = () => {
         'Full monthly analytics',
         'Priority support',
       ],
-      buttonText: 'Upgrade to Pro →',
+      buttonText: userPlan === 'pro' ? 'Manage Billing' : 'Upgrade to Pro →',
       disabled: false,
       popular: true,
       valueBadge: 'MOST POPULAR',
-      link: 'https://whop.com/checkout/plan_ADVvcySYlxcIR',
+      link: userPlan === 'pro' ? 'https://whop.com/hub/' : 'https://whop.com/checkout/plan_ADVvcySYlxcIR',
     },
     {
       id: 'lifetime',
@@ -64,11 +64,11 @@ const UpgradePlan: React.FC = () => {
         'Founding member badge on profile',
         'Early access to all future features',
       ],
-      buttonText: 'Get Lifetime Access →',
+      buttonText: userPlan === 'pro' ? 'Manage Billing' : 'Get Lifetime Access →',
       disabled: false,
       popular: false,
       valueBadge: 'BEST VALUE',
-      link: 'https://whop.com/checkout/plan_AOaJ2eJfVa30Z',
+      link: userPlan === 'pro' ? 'https://whop.com/hub/' : 'https://whop.com/checkout/plan_AOaJ2eJfVa30Z',
     },
   ];
 
