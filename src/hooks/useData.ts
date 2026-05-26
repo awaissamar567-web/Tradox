@@ -80,6 +80,19 @@ export const useData = () => {
 
     const fetchData = async () => {
       setLoadingData(true);
+      
+      const loadLocalStorage = () => {
+        const localTrades = localStorage.getItem(`edgelog_trades_${uid}`);
+        const localStrats = localStorage.getItem(`edgelog_strategies_${uid}`);
+        const localMindset = localStorage.getItem(`edgelog_mindset_${uid}`);
+        const localReviews = localStorage.getItem(`edgelog_reviews_${uid}`);
+
+        setTrades(localTrades ? JSON.parse(localTrades) : []);
+        setStrategies(localStrats ? JSON.parse(localStrats) : []);
+        setMindsetLogs(localMindset ? JSON.parse(localMindset) : []);
+        setWeeklyReviews(localReviews ? JSON.parse(localReviews) : []);
+      };
+
       if (isFirebaseConfigured && db) {
         try {
           // Fetch Trades
@@ -119,24 +132,13 @@ export const useData = () => {
           setWeeklyReviews(loadedReviews);
 
         } catch (error) {
-          console.error("Firestore retrieval error: ", error);
+          console.error("Firestore retrieval error, falling back to localStorage: ", error);
+          loadLocalStorage();
         } finally {
           setLoadingData(false);
         }
       } else {
-        // LOCAL STORAGE FALLBACK
-        const localTrades = localStorage.getItem(`edgelog_trades_${uid}`);
-        const localStrats = localStorage.getItem(`edgelog_strategies_${uid}`);
-        const localMindset = localStorage.getItem(`edgelog_mindset_${uid}`);
-        const localReviews = localStorage.getItem(`edgelog_reviews_${uid}`);
-
-        // Fallback loads from localStorage, starting empty if null
-        setTrades(localTrades ? JSON.parse(localTrades) : []);
-        setStrategies(localStrats ? JSON.parse(localStrats) : []);
-        setMindsetLogs(localMindset ? JSON.parse(localMindset) : []);
-        setWeeklyReviews(localReviews ? JSON.parse(localReviews) : []);
-        
-        // Short artificial visual delay for local queries to feel realistic
+        loadLocalStorage();
         setTimeout(() => {
           setLoadingData(false);
         }, 400);

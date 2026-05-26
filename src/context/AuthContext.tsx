@@ -80,27 +80,52 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const docRef = doc(db, 'users', user.uid, 'profile', 'config');
           
           // Setup real-time listener for profile config changes
-          unsubscribe = onSnapshot(docRef, (docSnap) => {
-            if (docSnap.exists()) {
-              setProfileSettings(docSnap.data() as UserProfile);
-            } else {
-              // Initialize default profile in DB
-              const defaultProfile: UserProfile = {
-                userPlan: 'free',
-                onboardingComplete: false,
-                country: 'United States',
-                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
-                tradingStyle: 'Day Trader',
-                primaryMarket: 'Forex',
-                currency: 'USD',
-                brokerLabel: '',
-                theme: 'dark',
-                customAvatarUrl: null
-              };
-              setDoc(docRef, defaultProfile);
-              setProfileSettings(defaultProfile);
+          unsubscribe = onSnapshot(
+            docRef, 
+            (docSnap) => {
+              if (docSnap.exists()) {
+                setProfileSettings(docSnap.data() as UserProfile);
+              } else {
+                // Initialize default profile in DB
+                const defaultProfile: UserProfile = {
+                  userPlan: 'free',
+                  onboardingComplete: false,
+                  country: 'United States',
+                  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+                  tradingStyle: 'Day Trader',
+                  primaryMarket: 'Forex',
+                  currency: 'USD',
+                  brokerLabel: '',
+                  theme: 'dark',
+                  customAvatarUrl: null
+                };
+                setDoc(docRef, defaultProfile);
+                setProfileSettings(defaultProfile);
+              }
+            },
+            (error) => {
+              console.error("Firestore config subscription error, falling back to localStorage:", error);
+              const key = `edgelog_profile_${user.uid}`;
+              const stored = localStorage.getItem(key);
+              if (stored) {
+                setProfileSettings(JSON.parse(stored));
+              } else {
+                const defaultProfile: UserProfile = {
+                  userPlan: 'free',
+                  onboardingComplete: false,
+                  country: 'United States',
+                  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+                  tradingStyle: 'Day Trader',
+                  primaryMarket: 'Forex',
+                  currency: 'USD',
+                  brokerLabel: '',
+                  theme: 'dark',
+                  customAvatarUrl: null
+                };
+                setProfileSettings(defaultProfile);
+              }
             }
-          });
+          );
         } catch (error) {
           console.error("Error loading user profile from Firestore:", error);
         }
