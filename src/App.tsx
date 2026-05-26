@@ -43,7 +43,7 @@ function AppContent() {
       case 'strategies':
         return <StrategyVault />;
       case 'profile':
-        return <Profile />;
+        return <Profile onNavigateToTab={setCurrentTab} />;
       case 'privacy-policy':
         return <PrivacyPolicy />;
       case 'terms-of-service':

@@ -10,12 +10,10 @@ import {
   Settings, 
   Camera, 
   Shield, 
-  ExternalLink, 
   Moon, 
   Sun,
   FileText
 } from 'lucide-react';
-import { WHOP_BILLING_PORTAL } from '../components/PlanGate';
 
 const COUNTRIES = [
   { value: 'United States', label: 'United States' },
@@ -79,7 +77,11 @@ const CURRENCIES = [
 const TRADING_STYLES = ['Day Trader', 'Swing Trader', 'Scalper'];
 const MARKETS = ['Forex', 'Crypto', 'Stocks', 'Futures'];
 
-const Profile: React.FC = () => {
+interface ProfileProps {
+  onNavigateToTab?: (tab: string) => void;
+}
+
+const Profile: React.FC<ProfileProps> = ({ onNavigateToTab }) => {
   const { user, profileSettings, updateProfileSettings, userPlan } = useAuth();
   const { showToast } = useToast();
 
@@ -416,15 +418,13 @@ const Profile: React.FC = () => {
                 Review subscription parameters, view payment history, and manage or cancel premium billing licenses.
               </p>
             </div>
-            <a
-              href={WHOP_BILLING_PORTAL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="h-9 px-4 shrink-0 bg-transparent border border-accent/40 hover:bg-accentDim text-accent font-syne text-[10px] font-bold uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5"
+            <button
+              type="button"
+              onClick={() => onNavigateToTab?.('upgrade')}
+              className="h-9 px-4 shrink-0 bg-transparent border border-accent/40 hover:bg-accentDim text-accent font-syne text-[10px] font-bold uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
             >
               Manage Billing
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+            </button>
           </div>
 
           {/* Action buttons & terms */}
