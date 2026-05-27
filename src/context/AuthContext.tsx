@@ -306,12 +306,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Helper variables for easy destructuring
   const userPlan = profileSettings?.userPlan || 'free';
   const onboardingComplete = !!profileSettings?.onboardingComplete;
+  const isAppLoading = loading || (!!user && profileSettings === null);
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        loading,
+        loading: isAppLoading,
         isMockMode,
         signInWithEmail,
         signUpWithEmail,
