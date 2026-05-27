@@ -74,9 +74,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const loadProfile = async () => {
       if (isFirebaseConfigured && db) {
         try {
-          // Sync email to root user document for query in webhook
+          // Sync email to root user document for query in webhook (normalized to lowercase)
           const userRootRef = doc(db, 'users', user.uid);
-          await setDoc(userRootRef, { email: user.email, uid: user.uid }, { merge: true });
+          const normalizedEmail = user.email ? user.email.toLowerCase().trim() : null;
+          await setDoc(userRootRef, { email: normalizedEmail, uid: user.uid }, { merge: true });
 
           const docRef = doc(db, 'users', user.uid, 'profile', 'config');
           
