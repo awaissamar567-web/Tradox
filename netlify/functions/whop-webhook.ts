@@ -74,7 +74,40 @@ const handler: Handler = async (event, context) => {
         }
       }
 
-      // Method 2: Legacy/Simple Hex HMAC-SHA256 of the raw body
+      // Method 2: Standard Webhooks using raw secret string (non-base64)
+      if (!isVerified && timestampHeader && idHeader) {
+        const toSign = `${idHeader}.${timestampHeader}.${bodyText}`;
+        const cleanSecret = webhookSecret.replace('whsec_', '');
+        const hmac = crypto.createHmac('sha256', cleanSecret);
+        const digest = hmac.update(toSign).digest('base64');
+
+        const signatures = signatureHeader.split(' ');
+        for (const sig of signatures) {
+          const parts = sig.split(',');
+          if (parts[0] === 'v1' && parts[1] === digest) {
+            isVerified = true;
+            break;
+          }
+        }
+      }
+
+      // Method 3: Standard Webhooks using raw webhookSecret string directly
+      if (!isVerified && timestampHeader && idHeader) {
+        const toSign = `${idHeader}.${timestampHeader}.${bodyText}`;
+        const hmac = crypto.createHmac('sha256', webhookSecret);
+        const digest = hmac.update(toSign).digest('base64');
+
+        const signatures = signatureHeader.split(' ');
+        for (const sig of signatures) {
+          const parts = sig.split(',');
+          if (parts[0] === 'v1' && parts[1] === digest) {
+            isVerified = true;
+            break;
+          }
+        }
+      }
+
+      // Method 4: Legacy/Simple Hex HMAC-SHA256 of the raw body
       if (!isVerified) {
         const hmacHex = crypto.createHmac('sha256', webhookSecret);
         const digestHex = hmacHex.update(bodyText).digest('hex');
