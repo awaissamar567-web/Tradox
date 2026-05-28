@@ -213,11 +213,26 @@ const handler: Handler = async (event, context) => {
       const q = query(usersRef, where('email', '==', targetEmail));
       const querySnapshot = await getDocs(q);
 
+      // Update or write to root whop_memberships/{targetEmail} registry
+      const membershipRef = doc(db, 'whop_memberships', targetEmail);
+      const membershipData: any = {
+        userPlan: newPlan,
+        email: targetEmail,
+        updatedAt: new Date().toISOString()
+      };
+      if (newPlan === 'free') {
+        membershipData.paymentPlanType = null;
+      } else if (paymentPlanType) {
+        membershipData.paymentPlanType = paymentPlanType;
+      }
+      await setDoc(membershipRef, membershipData, { merge: true });
+      console.log(`✅ Successfully updated whop_memberships document for "${targetEmail}"`);
+
       if (querySnapshot.empty) {
-        console.warn(`⚠️ User with email "${targetEmail}" not found in Firestore root users collection.`);
+        console.warn(`⚠️ User with email "${targetEmail}" not found in Firestore root users collection. Saved pending membership status.`);
         return {
-          statusCode: 404,
-          body: JSON.stringify({ error: 'User not found in database' }),
+          statusCode: 200,
+          body: JSON.stringify({ message: 'Membership saved to pending registry. User not found in database yet.' }),
         };
       }
 
@@ -241,7 +256,7 @@ const handler: Handler = async (event, context) => {
 
       return {
         statusCode: 200,
-        body: JSON.stringify({ message: `Successfully updated ${updateCount} user profile(s) to ${newPlan}` }),
+        body: JSON.stringify({ message: `Successfully updated ${updateCount} user profile(s) and whop_membership to ${newPlan}` }),
       };
     } catch (dbErr: any) {
       console.error('❌ Firestore Database error updating plan:', dbErr.message);

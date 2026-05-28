@@ -7,7 +7,7 @@ import {
   signOut as firebaseSignOut, 
   signInWithPopup
 } from 'firebase/auth';
-import { doc, setDoc, onSnapshot } from 'firebase/firestore';
+import { doc, setDoc, onSnapshot, getDoc } from 'firebase/firestore';
 
 export interface AppUser {
   uid: string;
@@ -70,6 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     let unsubscribe: () => void = () => {};
+    let whopUnsubscribe: () => void = () => {};
 
     const loadProfile = async () => {
       if (isFirebaseConfigured && db) {
@@ -128,6 +129,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               }
             }
           );
+
+          // Setup real-time listener for whop memberships registry to auto-sync plans
+          if (normalizedEmail) {
+            const whopMembershipRef = doc(db, 'whop_memberships', normalizedEmail);
+            whopUnsubscribe = onSnapshot(whopMembershipRef, async (whopSnap) => {
+              if (whopSnap.exists()) {
+                const whopData = whopSnap.data();
+                try {
+                  const currentProfileDoc = await getDoc(docRef);
+                  if (currentProfileDoc.exists()) {
+                    const currentProfile = currentProfileDoc.data();
+                    if (currentProfile.userPlan !== whopData.userPlan || 
+                        currentProfile.paymentPlanType !== (whopData.paymentPlanType || null)) {
+                      console.log(`⚡ Syncing Whop ${whopData.userPlan} subscription to user profile config for ${normalizedEmail}`);
+                      await setDoc(docRef, {
+                        userPlan: whopData.userPlan,
+                        paymentPlanType: whopData.paymentPlanType || null
+                      }, { merge: true });
+                    }
+                  } else {
+                    await setDoc(docRef, {
+                      userPlan: whopData.userPlan,
+                      paymentPlanType: whopData.paymentPlanType || null
+                    }, { merge: true });
+                  }
+                } catch (err) {
+                  console.error("Error during whop membership sync check:", err);
+                }
+              }
+            }, (error) => {
+              console.error("Firestore whop_memberships subscription error:", error);
+            });
+          }
         } catch (error) {
           console.error("Error loading user profile from Firestore:", error);
         }
@@ -160,6 +194,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     return () => {
       unsubscribe();
+      whopUnsubscribe();
     };
   }, [user]);
 

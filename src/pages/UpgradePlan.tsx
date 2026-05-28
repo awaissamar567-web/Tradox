@@ -1,10 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import { usePlanGateModal } from '../components/PlanGate';
 import { Check, Shield, Zap, Sparkles } from 'lucide-react';
 
 const UpgradePlan: React.FC = () => {
   const { userPlan } = useAuth();
+  const { openUpgradeModal } = usePlanGateModal();
 
   const plans = [
     {
@@ -189,12 +191,13 @@ const UpgradePlan: React.FC = () => {
                     {plan.buttonText}
                   </button>
                 ) : (
-                  <motion.a
-                    href={plan.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <motion.button
+                    onClick={() => {
+                      const planId = plan.id === 'lifetime' ? 'plan_AOaJ2eJfVa30Z' : 'plan_ADVvcySYlxcIR';
+                      openUpgradeModal(planId);
+                    }}
                     whileTap={{ scale: 0.96 }}
-                    className={`w-full h-11 rounded-xl font-syne text-[11px] uppercase tracking-widest font-extrabold transition-all flex items-center justify-center gap-2 ${
+                    className={`w-full h-11 rounded-xl font-syne text-[11px] uppercase tracking-widest font-extrabold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                       plan.popular
                         ? 'bg-accent hover:brightness-110 text-bgBase shadow-[0_4px_16px_rgba(255,107,0,0.25)]'
                         : 'bg-transparent border border-accent/40 text-accent hover:bg-accentDim'
@@ -202,7 +205,7 @@ const UpgradePlan: React.FC = () => {
                   >
                     {plan.id === 'lifetime' ? <Sparkles className="w-3.5 h-3.5" /> : null}
                     {plan.buttonText}
-                  </motion.a>
+                  </motion.button>
                 )}
               </div>
             </motion.div>

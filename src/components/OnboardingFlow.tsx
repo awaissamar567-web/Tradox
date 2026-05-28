@@ -9,7 +9,7 @@ import {
   Check, 
   Lock 
 } from 'lucide-react';
-import { WHOP_MONTHLY_LINK } from './PlanGate';
+import { usePlanGateModal } from './PlanGate';
 
 const COUNTRIES = [
   { value: 'United States', label: 'United States' },
@@ -77,6 +77,7 @@ const OnboardingFlow: React.FC = () => {
   const { user, onboardingComplete, updateProfileSettings } = useAuth();
   const { addStrategy } = useData();
   const { showToast } = useToast();
+  const { openUpgradeModal } = usePlanGateModal();
 
   const [step, setStep] = useState(1);
   const [name, setName] = useState(user?.displayName || '');
@@ -466,21 +467,19 @@ const OnboardingFlow: React.FC = () => {
               </button>
 
               {/* Upgrade Whop Pro redirect option */}
-              <a
-                href={WHOP_MONTHLY_LINK}
+              <button
                 onClick={async () => {
                   // Complete onboarding with 'free' first. The plan will upgrade to 'pro'
-                  // automatically via webhook once the purchase on Whop goes through.
+                  // automatically via webhook or completion callback.
                   await handleFinishOnboarding('free');
-                  showToast('Redirecting to Whop. Your plan will update to Pro once payment is complete!', 'success');
+                  openUpgradeModal('plan_ADVvcySYlxcIR');
                 }}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="h-11 bg-accent hover:brightness-110 active:scale-[0.98] text-bgBase font-syne text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 text-center font-bold"
+                disabled={submitting}
+                className="h-11 bg-accent hover:brightness-110 active:scale-[0.98] text-bgBase font-syne text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all flex items-center justify-center gap-1.5 text-center font-bold cursor-pointer"
               >
                 Go Pro – $9.99/mo
                 <Lock className="w-3.5 h-3.5" />
-              </a>
+              </button>
             </div>
           )}
         </div>
