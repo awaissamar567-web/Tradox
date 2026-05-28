@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import TradoxLogo from './TradoxLogo';
 import { 
   ClipboardList, 
   History, 
@@ -98,21 +99,22 @@ const Sidebar: React.FC<SidebarProps> = ({
         </button>
 
         {/* Brand Logo Header */}
-        <div className={`p-6 flex flex-col gap-1 border-b border-customBorder/20 transition-all duration-200 ${
-          isCollapsed ? 'items-center px-2' : 'items-start'
+        <div className={`p-6 flex transition-all duration-200 border-b border-customBorder/20 ${
+          isCollapsed ? 'items-center justify-center px-2 py-5' : 'items-center justify-start gap-2.5'
         }`}>
           {isCollapsed ? (
-            <span className="font-syne text-[16px] font-extrabold text-accent tracking-wider leading-none">
-              TX
-            </span>
+            <TradoxLogo size={28} />
           ) : (
             <>
-              <h1 id="brand-logo" className="font-syne text-[18px] font-bold text-accent tracking-[0.2em] leading-none m-0">
-                TRADOX
-              </h1>
-              <span className="font-syne text-[9px] font-semibold text-textMuted tracking-[0.15em]">
-                TRADE JOURNAL
-              </span>
+              <TradoxLogo size={28} />
+              <div className="flex flex-col gap-0.5">
+                <h1 id="brand-logo" className="font-syne text-[16px] font-bold text-accent tracking-[0.18em] leading-none m-0 uppercase">
+                  TRADOX
+                </h1>
+                <span className="font-syne text-[8px] font-semibold text-textMuted tracking-[0.12em]">
+                  TRADE JOURNAL
+                </span>
+              </div>
             </>
           )}
         </div>

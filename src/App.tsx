@@ -19,6 +19,7 @@ import { Plus } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useToast } from './context/ToastContext';
+import TradoxLogo from './components/TradoxLogo';
 
 function AppContent() {
   const { showToast } = useToast();
@@ -109,6 +110,16 @@ function AppContent() {
     <ProtectedRoute>
       <div className="min-h-screen bg-bgBase flex flex-col md:flex-row text-textPrimary">
         
+        {/* Mobile Header Bar */}
+        <div className="md:hidden w-full h-14 bg-bgSurface/95 backdrop-blur-md border-b border-customBorder/30 px-4 flex items-center justify-between sticky top-0 z-40 select-none">
+          <div className="flex items-center gap-2">
+            <TradoxLogo size={26} />
+            <span className="font-syne text-[15px] font-extrabold text-accent tracking-[0.15em] uppercase mt-0.5">
+              Tradox
+            </span>
+          </div>
+        </div>
+
         {/* Onboarding Wizard Setup */}
         <OnboardingFlow />
 
