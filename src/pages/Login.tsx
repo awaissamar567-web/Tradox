@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { Mail, Lock, Flame, X } from 'lucide-react';
+import { Mail, Lock, X } from 'lucide-react';
 import PrivacyPolicy from './PrivacyPolicy';
 import TermsOfService from './TermsOfService';
 import TradoxLogo from '../components/TradoxLogo';
@@ -78,7 +78,7 @@ const Login: React.FC = () => {
           {/* Brand Header */}
           <div className="flex flex-col items-center text-center gap-1.5">
             <div className="flex items-center gap-2 text-accent">
-              <Flame className="w-6 h-6 animate-pulse" />
+              <TradoxLogo size={28} />
               <h1 className="font-syne text-[24px] font-bold tracking-[0.25em] leading-none m-0">
                 TRADOX
               </h1>
@@ -218,32 +218,12 @@ const Login: React.FC = () => {
       </div>
 
       {/* Right panel: Marketing visual, hidden on mobile */}
-      <div className="hidden lg:flex flex-col justify-center items-center p-12 bg-[#0C0C0E] border-l border-customBorder/30 relative overflow-hidden">
-        {/* Deep ambient glows */}
-        <div className="absolute -bottom-20 -right-20 w-[450px] h-[450px] bg-[#FF6B00]/10 blur-[130px] rounded-full pointer-events-none animate-pulse-subtle" />
-        <div className="absolute -top-20 -left-20 w-[450px] h-[450px] bg-[#FF6B00]/5 blur-[130px] rounded-full pointer-events-none animate-pulse-subtle" />
-        
-        {/* Subtle noise/grain overlay */}
-        <div className="absolute inset-0 opacity-[0.012] pointer-events-none bg-[radial-gradient(ellipse_at_center,transparent_0%,black_100%),url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')]" />
-
-        {/* Content container */}
-        <div className="max-w-[480px] text-center flex flex-col items-center gap-6 relative z-10">
-          <h2 className="font-syne text-[36px] font-extrabold tracking-tight text-white leading-[1.1] m-0">
-            Start Winning More
-          </h2>
-          <div className="flex items-center justify-center gap-3.5">
-            <span className="font-syne text-[36px] font-extrabold tracking-tight text-white m-0">
-              With
-            </span>
-            <span className="font-syne text-[36px] font-extrabold tracking-tight text-accent m-0 uppercase">
-              Tradox
-            </span>
-            <TradoxLogo size={46} />
-          </div>
-          <p className="font-dmsans text-[13.5px] text-textSecondary font-light leading-relaxed max-w-[365px] mt-2 opacity-85">
-            Elevate your edge. Log executions, design strategies, and analyze your performance with professional trade diagnostics.
-          </p>
-        </div>
+      <div className="hidden lg:flex items-center justify-center p-8 bg-transparent select-none">
+        <img
+          src="/login_panel.jpg"
+          alt="Start Winning More with Tradox"
+          className="w-full h-full max-h-[90vh] object-cover rounded-3xl border border-customBorder/30 shadow-2xl"
+        />
       </div>
 
       {/* OVERLAY MODAL FOR LEGAL DOCUMENTS */}
