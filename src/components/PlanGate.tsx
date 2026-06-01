@@ -112,7 +112,7 @@ export const PlanGateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.92, opacity: 0, y: 10 }}
               transition={{ type: 'spring', damping: 18, stiffness: 120 }}
-              className="bg-bgSurface border border-customBorder rounded-3xl w-full max-w-[500px] p-4 sm:p-8 flex flex-col items-center gap-4 sm:gap-6 relative shadow-2xl z-10 my-auto"
+              className="bg-bgSurface rounded-3xl w-full max-w-[500px] p-4 sm:p-8 flex flex-col items-center gap-4 sm:gap-6 relative shadow-2xl z-10 my-auto"
             >
               {/* Close */}
               <button
@@ -137,7 +137,7 @@ export const PlanGateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
                   </div>
 
                   <div 
-                    className="w-full h-[620px] sm:h-[500px] bg-bgElevated rounded-2xl border border-customBorder/60 overflow-hidden"
+                    className="w-full h-[700px] sm:h-[620px] overflow-y-auto rounded-2xl"
                     data-whop-checkout-plan-id={checkoutPlanId}
                     data-whop-checkout-on-complete="onWhopCheckoutComplete"
                     data-whop-checkout-prefill-email={user?.email || ''}
