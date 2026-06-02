@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import Login from '../pages/Login';
+import LandingPage from '../pages/LandingPage';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -8,6 +9,13 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const { user, loading } = useAuth();
+
+  // Simple path-based routing for marketing page
+  const isLandingPath = window.location.pathname === '/landing' || window.location.pathname === '/welcome';
+
+  if (isLandingPath) {
+    return <LandingPage />;
+  }
 
   if (loading) {
     return (
