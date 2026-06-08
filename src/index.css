@@ -43,7 +43,7 @@ html.light {
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
-    height: 100%;
+    min-height: 100%;
     overflow-x: hidden;
   }
 
