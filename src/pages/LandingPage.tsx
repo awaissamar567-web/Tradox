@@ -8,10 +8,7 @@ import {
   ShieldCheck, 
   Activity, 
   ChevronRight,
-  Calculator,
-  TrendingUp,
-  BarChart3,
-  BookOpen
+  Calculator
 } from 'lucide-react';
 import TradoxLogo from '../components/TradoxLogo';
 import { usePlanGateModal } from '../components/PlanGate';
@@ -40,7 +37,7 @@ const LandingPage: React.FC = () => {
       iconClassName: "text-accent",
       titleClassName: "text-textPrimary",
       className:
-        "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:rounded-xl before:h-[100%] before:content-[''] before:bg-bgBase/40 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
+        "[grid-area:stack] -translate-x-12 translate-y-0 hover:-translate-y-5 sm:-translate-x-24 sm:translate-y-0 hover:sm:-translate-y-10 before:absolute before:w-[100%] before:rounded-xl before:h-[100%] before:content-[''] before:bg-bgBase/40 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
     },
     {
       icon: <BrainCircuit className="w-4 h-4 text-accent animate-pulse" />,
@@ -50,7 +47,7 @@ const LandingPage: React.FC = () => {
       iconClassName: "text-accent",
       titleClassName: "text-textPrimary",
       className:
-        "[grid-area:stack] translate-x-12 translate-y-10 hover:-translate-y-1 before:absolute before:w-[100%] before:rounded-xl before:h-[100%] before:content-[''] before:bg-bgBase/40 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
+        "[grid-area:stack] -translate-x-6 translate-y-5 hover:-translate-y-1 sm:-translate-x-12 sm:translate-y-10 hover:sm:-translate-y-1 before:absolute before:w-[100%] before:rounded-xl before:h-[100%] before:content-[''] before:bg-bgBase/40 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
     },
     {
       icon: <Activity className="w-4 h-4 text-accent" />,
@@ -60,7 +57,7 @@ const LandingPage: React.FC = () => {
       iconClassName: "text-accent",
       titleClassName: "text-textPrimary",
       className:
-        "[grid-area:stack] translate-x-24 translate-y-20 hover:translate-y-10",
+        "[grid-area:stack] translate-x-0 translate-y-10 hover:translate-y-5 sm:translate-x-0 sm:translate-y-20 hover:sm:translate-y-10",
     },
   ];
 
@@ -136,116 +133,17 @@ const LandingPage: React.FC = () => {
             </div>
           }
         >
-          {/* Inner App Dashboard Mockup */}
-          <div className="w-full h-full bg-bgBase p-3 md:p-6 flex flex-col gap-4 md:gap-5 overflow-hidden">
-            
-            {/* Simulated App Navbar */}
-            <div className="flex items-center justify-between border-b border-customBorder/30 pb-3">
-              <div className="flex items-center gap-3">
-                <div className="w-2.5 h-2.5 rounded-full bg-redPnl/70" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
-                <div className="w-2.5 h-2.5 rounded-full bg-greenPnl/70" />
-                <span className="font-mono text-[10px] text-textMuted ml-2">TRADOX_LEDGER_V1.EXE</span>
-              </div>
-              <div className="flex gap-2 items-center">
-                <div className="h-5 px-2.5 bg-accentDim border border-accent/20 rounded text-[8px] font-syne text-accent uppercase font-bold tracking-wider flex items-center">Pro</div>
-                <div className="w-6 h-6 rounded-full bg-accent/20 border border-accent/30" />
-              </div>
-            </div>
-
-            {/* Quick Metrics Row */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-              <div className="flex flex-col gap-1 bg-bgSurface/50 border border-customBorder/30 rounded-xl p-3">
-                <div className="flex items-center gap-1.5">
-                  <TrendingUp className="w-3 h-3 text-greenPnl" />
-                  <span className="font-syne text-[8px] uppercase tracking-wider text-textSecondary">Net P&L</span>
-                </div>
-                <span className="font-mono text-[16px] md:text-[20px] font-bold text-greenPnl leading-tight">+$2,450</span>
-              </div>
-              <div className="flex flex-col gap-1 bg-bgSurface/50 border border-customBorder/30 rounded-xl p-3">
-                <div className="flex items-center gap-1.5">
-                  <Target className="w-3 h-3 text-accent" />
-                  <span className="font-syne text-[8px] uppercase tracking-wider text-textSecondary">Win Rate</span>
-                </div>
-                <span className="font-mono text-[16px] md:text-[20px] font-bold text-accent leading-tight">72.4%</span>
-              </div>
-              <div className="flex flex-col gap-1 bg-bgSurface/50 border border-customBorder/30 rounded-xl p-3">
-                <div className="flex items-center gap-1.5">
-                  <BarChart3 className="w-3 h-3 text-textSecondary" />
-                  <span className="font-syne text-[8px] uppercase tracking-wider text-textSecondary">Executions</span>
-                </div>
-                <span className="font-mono text-[16px] md:text-[20px] font-bold text-textPrimary leading-tight">142</span>
-              </div>
-              <div className="flex flex-col gap-1 bg-bgSurface/50 border border-customBorder/30 rounded-xl p-3">
-                <div className="flex items-center gap-1.5">
-                  <BookOpen className="w-3 h-3 text-accent" />
-                  <span className="font-syne text-[8px] uppercase tracking-wider text-textSecondary">Playbooks</span>
-                </div>
-                <span className="font-mono text-[16px] md:text-[20px] font-bold text-textPrimary leading-tight">5 Active</span>
-              </div>
-            </div>
-
-            {/* Equity Curve Chart */}
-            <div className="relative w-full flex-1 min-h-[120px] bg-bgSurface/30 border border-customBorder/30 rounded-xl overflow-hidden flex flex-col justify-end p-2">
-              <svg className="w-full h-full" viewBox="0 0 400 100" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="scrollGlow" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#FF6B00" stopOpacity="0.3"/>
-                    <stop offset="100%" stopColor="#FF6B00" stopOpacity="0.0"/>
-                  </linearGradient>
-                </defs>
-                <path d="M 0 95 L 40 85 L 80 88 L 120 70 L 160 78 L 200 48 L 240 55 L 280 20 L 320 28 L 360 8 L 400 3 L 400 100 L 0 100 Z" fill="url(#scrollGlow)" />
-                <path d="M 0 95 L 40 85 L 80 88 L 120 70 L 160 78 L 200 48 L 240 55 L 280 20 L 320 28 L 360 8 L 400 3" fill="none" stroke="#FF6B00" strokeWidth="2.5" strokeLinecap="round" />
-                <circle cx="200" cy="48" r="4" fill="#0D0D0D" stroke="#FF6B00" strokeWidth="2" />
-                <circle cx="280" cy="20" r="4" fill="#0D0D0D" stroke="#FF6B00" strokeWidth="2" />
-                <circle cx="400" cy="3" r="4" fill="#FF6B00" />
-              </svg>
-              <div className="absolute top-3 left-3 px-2 py-0.5 rounded bg-bgBase/70 border border-customBorder/60 text-[9px] font-mono text-textSecondary uppercase tracking-widest">
-                Account Equity Curve
-              </div>
-              <div className="absolute top-3 right-3 px-2 py-0.5 rounded bg-greenPnl/10 border border-greenPnl/25 text-[9px] font-mono text-greenPnl uppercase tracking-widest">
-                ↑ +18.7% MTD
-              </div>
-            </div>
-
-            {/* Trade Log Table Mini */}
-            <div className="w-full bg-bgSurface/30 border border-customBorder/30 rounded-xl overflow-hidden">
-              <div className="grid grid-cols-5 gap-2 text-[8px] font-syne uppercase tracking-wider text-textMuted p-2.5 border-b border-customBorder/20">
-                <span>Pair</span>
-                <span>Side</span>
-                <span>P&L</span>
-                <span>Grade</span>
-                <span>Emotion</span>
-              </div>
-              <div className="grid grid-cols-5 gap-2 text-[10px] font-mono text-textSecondary p-2.5 border-b border-customBorder/10">
-                <span className="text-textPrimary font-semibold">EUR/USD</span>
-                <span className="text-greenPnl">Long</span>
-                <span className="text-greenPnl font-semibold">+$320</span>
-                <span className="text-accent font-bold">A</span>
-                <span>Focused</span>
-              </div>
-              <div className="grid grid-cols-5 gap-2 text-[10px] font-mono text-textSecondary p-2.5 border-b border-customBorder/10">
-                <span className="text-textPrimary font-semibold">GBP/JPY</span>
-                <span className="text-redPnl">Short</span>
-                <span className="text-redPnl font-semibold">-$85</span>
-                <span className="text-yellow-500 font-bold">B</span>
-                <span>Anxious</span>
-              </div>
-              <div className="grid grid-cols-5 gap-2 text-[10px] font-mono text-textSecondary p-2.5">
-                <span className="text-textPrimary font-semibold">BTC/USD</span>
-                <span className="text-greenPnl">Long</span>
-                <span className="text-greenPnl font-semibold">+$540</span>
-                <span className="text-accent font-bold">A+</span>
-                <span>Confident</span>
-              </div>
-            </div>
-          </div>
+          <img 
+            src="/daily_journal.png" 
+            alt="Tradox Daily Journal Dashboard" 
+            className="w-full h-full object-cover object-top rounded-2xl border border-customBorder/20"
+          />
         </ContainerScroll>
       </div>
 
       {/* CORE FEATURES DISCUSSION SECTION */}
       <section id="features" className="py-20 px-4 max-w-5xl mx-auto border-t border-customBorder select-none">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 lg:gap-24 items-center">
           
           {/* Left Column: Card Stack (5 cols) */}
           <div className="lg:col-span-5 flex justify-center lg:justify-start order-last lg:order-first">
@@ -329,7 +227,7 @@ const LandingPage: React.FC = () => {
           </div>
 
           {/* Simulator Widget Right (7 cols) */}
-          <div className="lg:col-span-7 bg-bgSurface border border-customBorder/70 rounded-3xl p-6 flex flex-col gap-6 shadow-xl relative">
+          <div className="lg:col-span-7 bg-bgSurface/30 backdrop-blur-md border border-white/[0.05] rounded-3xl p-6 flex flex-col gap-6 shadow-2xl shadow-black/45 relative">
             
             {/* Live Expectancy Output Panel */}
             <div className={`p-4 rounded-2xl flex items-center justify-between transition-colors ${
@@ -431,7 +329,7 @@ const LandingPage: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           {/* Free Card */}
-          <div className="flex flex-col justify-between bg-bgSurface p-6 rounded-3xl border border-customBorder hover:border-textSecondary/25 transition-all duration-300">
+          <div className="flex flex-col justify-between bg-bgSurface/20 backdrop-blur-md p-6 rounded-3xl border border-white/[0.05] hover:bg-bgSurface/30 transition-all duration-300 shadow-xl">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-0.5">
                 <h3 className="font-syne text-[15px] font-extrabold uppercase tracking-wider text-textPrimary">Free Journal</h3>
@@ -468,7 +366,7 @@ const LandingPage: React.FC = () => {
           </div>
 
           {/* Pro Monthly Card */}
-          <div className="flex flex-col justify-between bg-bgSurface p-6 rounded-3xl border border-accent shadow-[0_0_24px_rgba(255,107,0,0.08)] ring-1 ring-accent/25 relative">
+          <div className="flex flex-col justify-between bg-bgSurface/40 backdrop-blur-md p-6 rounded-3xl border border-accent shadow-[0_0_30px_rgba(255,107,0,0.12)] ring-1 ring-accent/30 relative">
             <div className="absolute -top-3 left-6 px-3 py-0.5 rounded-full bg-accent text-bgBase text-[7.5px] font-syne font-bold uppercase tracking-wider">
               RECOMMENDED
             </div>
@@ -510,7 +408,7 @@ const LandingPage: React.FC = () => {
           </div>
 
           {/* Lifetime Card */}
-          <div className="flex flex-col justify-between bg-bgSurface p-6 rounded-3xl border border-customBorder hover:border-textSecondary/25 transition-all duration-300">
+          <div className="flex flex-col justify-between bg-bgSurface/20 backdrop-blur-md p-6 rounded-3xl border border-white/[0.05] hover:bg-bgSurface/30 transition-all duration-300 shadow-xl">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-0.5">
                 <h3 className="font-syne text-[15px] font-extrabold uppercase tracking-wider text-textPrimary">Lifetime Access</h3>

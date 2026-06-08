@@ -32,6 +32,14 @@ export const PlanGateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const openUpgradeModal = (planId?: any) => {
     const actualPlanId = typeof planId === 'string' ? planId : null;
+    
+    // Redirect to landing page pricing if not on landing/welcome and attempting specific plan checkout
+    const isLandingPage = window.location.pathname === '/landing' || window.location.pathname === '/welcome';
+    if (!isLandingPage && actualPlanId) {
+      window.location.href = '/landing#pricing';
+      return;
+    }
+    
     setCheckoutPlanId(actualPlanId);
     setIsOpen(true);
   };
@@ -198,7 +206,14 @@ export const PlanGateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
                   <div className="grid grid-cols-2 gap-3.5 w-full mt-1">
                     {/* Pro Monthly */}
                     <motion.button
-                      onClick={() => setCheckoutPlanId('plan_ADVvcySYlxcIR')}
+                      onClick={() => {
+                        const isLandingPage = window.location.pathname === '/landing' || window.location.pathname === '/welcome';
+                        if (!isLandingPage) {
+                          window.location.href = '/landing#pricing';
+                        } else {
+                          setCheckoutPlanId('plan_ADVvcySYlxcIR');
+                        }
+                      }}
                       whileTap={{ scale: 0.96 }}
                       className="flex flex-col justify-between p-4 bg-bgElevated border border-accent/20 hover:border-accent rounded-2xl text-left gap-3 group relative cursor-pointer"
                     >
@@ -217,7 +232,14 @@ export const PlanGateProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
                     {/* Lifetime */}
                     <motion.button
-                      onClick={() => setCheckoutPlanId('plan_AOaJ2eJfVa30Z')}
+                      onClick={() => {
+                        const isLandingPage = window.location.pathname === '/landing' || window.location.pathname === '/welcome';
+                        if (!isLandingPage) {
+                          window.location.href = '/landing#pricing';
+                        } else {
+                          setCheckoutPlanId('plan_AOaJ2eJfVa30Z');
+                        }
+                      }}
                       whileTap={{ scale: 0.96 }}
                       className="flex flex-col justify-between p-4 bg-bgElevated border border-customBorder hover:border-accent rounded-2xl text-left gap-3 group relative cursor-pointer"
                     >
